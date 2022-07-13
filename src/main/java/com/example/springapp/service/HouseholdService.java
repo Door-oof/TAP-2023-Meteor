@@ -8,18 +8,16 @@ import com.example.springapp.entity.FamilyMember;
 import com.example.springapp.entity.Household;
 import com.example.springapp.error.AnnualIncomeLowerThanZeroException;
 import com.example.springapp.error.ConflictIdException;
+import com.example.springapp.error.FutureDateException;
 import com.example.springapp.error.HouseholdNotFoundException;
 import com.example.springapp.repository.HouseholdRepository;
 import com.example.springapp.repository.FamilyMemberRepository;
-import com.example.springapp.utils.HousingType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +63,10 @@ public class HouseholdService {
                 .orElseThrow(() -> new HouseholdNotFoundException(familyMember.getFamilyId()));
         if (familyMember.getAnnualIncome().compareTo(BigDecimal.ZERO) < 0) {
             throw new AnnualIncomeLowerThanZeroException();
+        }
+        LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (dob.isAfter(LocalDate.now())) {
+            throw new FutureDateException(dob);
         }
         FamilyMember newFamilyMember = createFamilyMember(familyMember, household);
         familyMemberRepository.save(newFamilyMember);

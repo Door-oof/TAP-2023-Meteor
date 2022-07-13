@@ -124,7 +124,8 @@ public class GrantService {
             for (FamilyMember familyMember : familyMemberList) {
                 householdIncome = householdIncome.add(familyMember.getAnnualIncome());
             }
-            if (householdIncome.compareTo(minIncome) < 0 && household.getHousingType().equals(HousingType.HDB)) {
+            if (householdIncome.compareTo(minIncome) < 0 && household.getHousingType().equals(HousingType.HDB)
+                    && !familyMemberList.isEmpty()) {
                 selectedHouseholds.add(new HouseholdDTO(household.getId(), household.getHousingType(), familyMemberList));
             }
         }

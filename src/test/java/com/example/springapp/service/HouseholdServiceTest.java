@@ -8,6 +8,7 @@ import com.example.springapp.entity.FamilyMember;
 import com.example.springapp.entity.Household;
 import com.example.springapp.error.AnnualIncomeLowerThanZeroException;
 import com.example.springapp.error.ConflictIdException;
+import com.example.springapp.error.FutureDateException;
 import com.example.springapp.error.HouseholdNotFoundException;
 import com.example.springapp.repository.FamilyMemberRepository;
 import com.example.springapp.repository.HouseholdRepository;
@@ -25,7 +26,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,9 +101,22 @@ public class HouseholdServiceTest {
     }
 
     @Test
-    public void addFamilyMember_success() {
+    public void addFamilyMember_futureDate() throws ParseException {
+        FamilyMember newFamilyMember = createFamilyMember("Mary Smith", Gender.F, MaritalStatus.Single, OccupationType.Student,
+                BigDecimal.valueOf(1000), 1);
+        Date dob = new SimpleDateFormat("yyyy-MM-dd").parse("2023-01-01");
+        newFamilyMember.setDob(dob);
+        when(householdRepository.findById(anyInt())).thenReturn(Optional.of(new Household()));
+
+        assertThrows(FutureDateException.class, () -> householdService.addFamilyMember(newFamilyMember));
+    }
+
+    @Test
+    public void addFamilyMember_success() throws ParseException {
         FamilyMember newFamilyMember = createFamilyMember("Mary Smith", Gender.F, MaritalStatus.Single, OccupationType.Student,
                 BigDecimal.valueOf(10000), 1);
+        Date dob = new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01");
+        newFamilyMember.setDob(dob);
         when(householdRepository.findById(anyInt())).thenReturn(Optional.of(new Household()));
         FamilyMemberCreationDTO familyMemberCreation = householdService.addFamilyMember(newFamilyMember);
 
