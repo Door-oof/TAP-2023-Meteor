@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class GrantService {
             for (FamilyMember familyMember : familyMemberList) {
                 LocalDate now = LocalDate.now();
                 LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                float age = Period.between(dob, now).getYears();
+                double age = ChronoUnit.DAYS.between(dob, now) / 365.0;
                 if (age < 16) {
                     eligibleStudentsList.add(familyMember);
                 }
@@ -57,7 +57,7 @@ public class GrantService {
             for (FamilyMember familyMember : familyMemberList) {
                 LocalDate now = LocalDate.now();
                 LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                float age = Period.between(dob, now).getYears();
+                double age = ChronoUnit.DAYS.between(dob, now) / 365.0;
                 if (age < 0.8) {
                     eligibleBabiesList.add(familyMember);
                 }
@@ -80,7 +80,7 @@ public class GrantService {
             for (FamilyMember familyMember : familyMemberList) {
                 LocalDate now = LocalDate.now();
                 LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                float age = Period.between(dob, now).getYears();
+                double age = ChronoUnit.DAYS.between(dob, now) / 365.0;
                 if (age < 18 || age > 55) {
                     areMembersEligible = true;
                 }
@@ -102,7 +102,7 @@ public class GrantService {
             for (FamilyMember familyMember : familyMemberList) {
                 LocalDate now = LocalDate.now();
                 LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                float age = Period.between(dob, now).getYears();
+                double age = ChronoUnit.DAYS.between(dob, now) / 365.0;
                 if (age > 55 && household.getHousingType().equals(HousingType.HDB)) {
                     eligibleElderlies.add(familyMember);
                 }
