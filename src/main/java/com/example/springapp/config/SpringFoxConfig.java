@@ -29,7 +29,8 @@ public class SpringFoxConfig {
 
         return new ApiInfoBuilder()
                 .title("Government Grant Disbursement API")
-                .description("Description")
+                .description("This API should be able to build up a list of recipients and which households qualify for the grants.\n" +
+                        "These grants are disbursed based on certain criteria - like total household income, age, occupation, etc.")
                 .license("MIT")
                 .licenseUrl("https://opensource.org/licenses/MIT")
                 .version("1.0.0")
