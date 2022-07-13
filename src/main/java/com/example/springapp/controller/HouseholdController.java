@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -70,68 +69,5 @@ public class HouseholdController {
     public FamilyMemberCreationDTO newFamilyMember(@ApiParam(value = "Add a new family member to a specified existing household", required = true)
                                                        @RequestBody FamilyMember familyMember) {
         return householdService.addFamilyMember(familyMember);
-    }
-
-    @ApiOperation(value = "List all students who are eligible for Student Encouragement Bonus (SEB) scheme",
-            notes = "This scheme only applies to households with members that is/are a student of less than 16 years old " +
-                    "and to households that have income of less than $200,000.\n" +
-                    "Qualifying members only include members who are less than 16 years old.")
-    @RequestMapping(value = "/SEB", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiResponses({
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    public List<HouseholdDTO> getEligibleStudents() {
-        return householdService.getEligibleStudents();
-    }
-
-    @ApiOperation(value = "List all babies who are eligible for Baby Sunshine Grant (BSG) scheme",
-            notes = "This scheme only applies to households with members that is/are younger than 8 months old.\n" +
-                    "Qualifying members only include members who are younger than 8 months old.")
-    @RequestMapping(value = "/BSG", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiResponses({
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    public List<HouseholdDTO> getEligibleBabies() {
-        return householdService.getEligibleBabies();
-    }
-
-    @ApiOperation(value = "List all households who are eligible for Multigeneration Scheme (MS)",
-            notes = "This scheme only applies to households with either members that is/are a student of less than 18 years old " +
-                    "or above the age of 55, " +
-                    "and to households with annual income of less than $150,000.\n" +
-                    "Qualifying members includes all members of the household.")
-    @RequestMapping(value = "/MS", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiResponses({
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    public List<HouseholdDTO> getMSEligibleHouseholds() {
-        return householdService.getMSEligibleHouseholds();
-    }
-
-    @ApiOperation(value = "List all elderlies who are eligible for Elder Bonus (EB) scheme",
-            notes = "This scheme only applies to HDB households with members above the age of 55.\n" +
-                    "Qualifying members only include elderlies above the age of 55.")
-    @RequestMapping(value = "/EB", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiResponses({
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    public List<HouseholdDTO> getEligibleElderlies() {
-        return householdService.getEligibleElderlies();
-    }
-
-    @ApiOperation(value = "List all HDB households who are eligible for YOLO GST Grant (YGG) scheme",
-            notes = "This scheme only applies to HDB households with with annual income of less than $100,000.\n" +
-                    "Qualifying members includes all members of the household.")
-    @RequestMapping(value = "/YGG", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiResponses({
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    public List<HouseholdDTO> getYGGEligibleHouseholds() {
-        return householdService.getYGGEligibleHouseholds();
     }
 }
