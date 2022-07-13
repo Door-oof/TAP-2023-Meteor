@@ -35,7 +35,7 @@ Option 2: Run the application through Intellij
 - In Intellij, navigate to `Run` and click `Edit Configurations`
 - Click "+" button for new Debug configuration and choose `Spring Boot`
 - Details for configuration as seen in picture below
-![](docs/images/Screenshot 2022-07-13 at 2.03.05 PM.png)
+![configuration](docs/images/Screenshot.png)
 - After finishing configuration, click "Apply" then "OK" at the end
 - Verify the configuration. When you click the run or debug button you should see no error in the terminal
 
