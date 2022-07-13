@@ -17,7 +17,7 @@ This project is build for the Take-Home Backend Technical Assessment for TAP 202
 - Clone this repository into a local directory
 
 
-    git clone https://github.com/Door-oof/TAP-2023-Meteor.git
+        git clone https://github.com/Door-oof/TAP-2023-Meteor.git
 
 
 - Open the project in Intellij and reload Maven dependencies in `pom.xml` if project does not auto-configure
