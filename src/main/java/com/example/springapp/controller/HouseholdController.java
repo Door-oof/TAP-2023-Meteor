@@ -64,6 +64,7 @@ public class HouseholdController {
     @ApiResponses({
             @ApiResponse(code = 404, message = "Household does not exist"),
             @ApiResponse(code = 400, message = "Invalid input"),
+            @ApiResponse(code = 409, message = "Family Member already exist"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public FamilyMemberCreationDTO newFamilyMember(@ApiParam(value = "Add a new family member to a specified existing household", required = true)

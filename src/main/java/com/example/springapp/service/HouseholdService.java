@@ -45,7 +45,7 @@ public class HouseholdService {
 
     public HouseholdCreationDTO addHousehold(Household household) {
         if (householdRepository.existsById(household.getId())) {
-            throw new ConflictIdException(household.getId());
+            throw new ConflictIdException(household.getId(), "Household");
         }
         Household newHousehold = createHousehold(household);
         householdRepository.save(newHousehold);
@@ -61,6 +61,9 @@ public class HouseholdService {
     public FamilyMemberCreationDTO addFamilyMember(FamilyMember familyMember) {
         Household household = householdRepository.findById(familyMember.getFamilyId())
                 .orElseThrow(() -> new HouseholdNotFoundException(familyMember.getFamilyId()));
+        if (familyMemberRepository.existsById(familyMember.getId())) {
+            throw new ConflictIdException(household.getId(), "Family member");
+        }
         if (familyMember.getAnnualIncome().compareTo(BigDecimal.ZERO) < 0) {
             throw new AnnualIncomeLowerThanZeroException();
         }

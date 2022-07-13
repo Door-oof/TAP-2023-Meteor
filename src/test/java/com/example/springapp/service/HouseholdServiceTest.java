@@ -77,6 +77,16 @@ public class HouseholdServiceTest {
     }
 
     @Test
+    public void addFamilyMember_conflictIds(){
+        FamilyMember newFamilyMember = createFamilyMember("John Smith", Gender.M, MaritalStatus.Married, OccupationType.Employed,
+                BigDecimal.valueOf(24000), 0);
+        when(householdRepository.findById(anyInt())).thenReturn(Optional.of(new Household()));
+        when(familyMemberRepository.existsById(any())).thenReturn(true);
+
+        assertThrows(ConflictIdException.class, () -> householdService.addFamilyMember(newFamilyMember));
+    }
+
+    @Test
     public void addFamilyMember_householdNotFound() {
         FamilyMember newFamilyMember = createFamilyMember("Mary Smith", Gender.F, MaritalStatus.Single, OccupationType.Student,
                 BigDecimal.valueOf(24000), 1);
