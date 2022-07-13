@@ -4,12 +4,10 @@ import com.example.springapp.config.Mapper;
 import com.example.springapp.dto.HouseholdDTO;
 import com.example.springapp.repository.FamilyMemberRepository;
 import com.example.springapp.repository.HouseholdRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -31,11 +29,6 @@ public class GrantServiceTest {
 
     @InjectMocks
     private GrantService grantService;
-
-    @BeforeEach
-    void testSetup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void getEligibleStudents_success() {

@@ -58,7 +58,8 @@ public class GrantService {
                 LocalDate now = LocalDate.now();
                 LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 double age = ChronoUnit.DAYS.between(dob, now) / 365.0;
-                if (age < 0.8) {
+                double eightMonths = 8.0 / 12.0; // convert months to years
+                if (age < eightMonths) {
                     eligibleBabiesList.add(familyMember);
                 }
             }
@@ -103,7 +104,7 @@ public class GrantService {
                 LocalDate now = LocalDate.now();
                 LocalDate dob = familyMember.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 double age = ChronoUnit.DAYS.between(dob, now) / 365.0;
-                if (age > 55 && household.getHousingType().equals(HousingType.HDB)) {
+                if (age >= 55 && household.getHousingType().equals(HousingType.HDB)) {
                     eligibleElderlies.add(familyMember);
                 }
             }

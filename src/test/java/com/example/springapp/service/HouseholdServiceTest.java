@@ -16,13 +16,11 @@ import com.example.springapp.utils.Gender;
 import com.example.springapp.utils.HousingType;
 import com.example.springapp.utils.MaritalStatus;
 import com.example.springapp.utils.OccupationType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -51,11 +49,6 @@ public class HouseholdServiceTest {
 
     @InjectMocks
     private HouseholdService householdService;
-
-    @BeforeEach
-    void testSetup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void addHousehold_conflictIds() {
