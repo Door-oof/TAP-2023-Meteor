@@ -18,6 +18,7 @@ import com.example.springapp.utils.OccupationType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -31,7 +32,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class HouseholdServiceTest {
@@ -93,6 +94,37 @@ public class HouseholdServiceTest {
         when(householdRepository.findById(anyInt())).thenReturn(Optional.of(new Household()));
 
         assertThrows(AnnualIncomeLowerThanZeroException.class, () -> householdService.addFamilyMember(newFamilyMember));
+    }
+
+    @Test
+    public void addFamilyMember_success() {
+        FamilyMember newFamilyMember = createFamilyMember("Mary Smith", Gender.F, MaritalStatus.Single, OccupationType.Student,
+                BigDecimal.valueOf(10000), 1);
+        when(householdRepository.findById(anyInt())).thenReturn(Optional.of(new Household()));
+        FamilyMemberCreationDTO familyMemberCreation = householdService.addFamilyMember(newFamilyMember);
+
+        assertNotNull(familyMemberCreation.getFamilyMember());
+        ArgumentCaptor<FamilyMember> familyMemberCaptor = ArgumentCaptor.forClass(FamilyMember.class);
+        verify(familyMemberRepository, times(1)).save(familyMemberCaptor.capture());
+        assertEquals(familyMemberCaptor.getValue(), familyMemberCreation.getFamilyMember());
+    }
+
+    @Test
+    public void getSpecifiedHousehold_householdNotFound() {
+        assertThrows(HouseholdNotFoundException.class, () -> householdService.getSpecifiedHousehold(anyInt()));
+    }
+
+    @Test
+    public void getSpecifiedHousehold_success() {
+        when(householdRepository.findById(any())).thenReturn(Optional.of(new Household()));
+        when(mapper.toDto(any())).thenAnswer(inv -> {
+            HouseholdDTO householdDTO = new HouseholdDTO();
+            householdDTO.setId(1);
+            householdDTO.setHousingType(HousingType.Landed);
+            return householdDTO;
+        });
+        HouseholdDTO householdDTO = householdService.getSpecifiedHousehold(1);
+        assertNotNull(householdDTO.getId());
     }
 
     private FamilyMember createFamilyMember(String name, Gender f, MaritalStatus single, OccupationType student, BigDecimal i, int familyId) {
